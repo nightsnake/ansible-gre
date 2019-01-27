@@ -1,0 +1,33 @@
+---
+- name: Loading kernel GRE module
+  modprobe:
+    name: ip_gre
+    state: present
+
+- name: Load kernel module permanent
+  lineinfile:
+    path: "/etc/modules-load.d/modules.conf"
+    line: 'ip_gre'
+    create: yes
+
+- name: Set sysctl vars
+  sysctl:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    state: present
+    sysctl_set: yes
+    reload: yes
+  loop:
+    - { name: "net.ipv4.conf.default.rp_filter", value: 0 }
+    - { name: "net.ipv4.conf.all.rp_filter", value: 0 }
+    - { name: "net.ipv4.ip_forward", value: 1 }
+
+- name: Setup GRE tunnel
+  template:
+    src: gre.cfg.j2
+    dest: "/etc/network/interfaces.d/{{ gre_interface }}.cfg"
+    owner: root
+    group: root
+    mode: "0644"
+
+

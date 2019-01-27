@@ -1,0 +1,5 @@
+gre_parent_iface: eth0
+gre_remote_ip: ''
+gre_local_ip: ''
+gre_ip_addr: ''
+gre_interface: gre1

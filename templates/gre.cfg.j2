@@ -1,0 +1,6 @@
+auto {{ gre_interface }}
+iface {{ gre_interface }} inet static
+  pre-up ip tunnel add {{ gre_interface }} mode gre remote {{ gre_remote_ip }} local {{ gre_local_ip }} dev {{ gre_parent_iface }} ttl 255
+  address {{ gre_ip_addr }}
+  post-down ip tunnel del {{ gre_interface }}
+
