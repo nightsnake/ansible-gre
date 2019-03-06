@@ -3,12 +3,14 @@
   modprobe:
     name: ip_gre
     state: present
+  when: (ansible_virtualization_type != "docker") and (ansible_virtualization_type != "lxc")
 
 - name: Load kernel module permanent
   lineinfile:
     path: "/etc/modules-load.d/modules.conf"
     line: 'ip_gre'
     create: yes
+  when: (ansible_virtualization_type != "docker") and (ansible_virtualization_type != "lxc")
 
 - name: Set sysctl vars
   sysctl:
