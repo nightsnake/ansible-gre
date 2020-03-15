@@ -18,3 +18,15 @@ gre_local_ip: ''
 gre_ip_addr: ''
 gre_interface: gre1
 ```
+
+GRE tunnel is disabled by default. Please use gre_enable for enabling tunnel
+
+### Example playbook
+```
+- hosts: all
+  become: yes
+  gather_facts: yes
+  roles:
+    - { role: ansible-gre, gre_enable: true }
+
+```
